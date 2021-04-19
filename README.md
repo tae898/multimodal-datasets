@@ -101,10 +101,10 @@ This is about extracting the original datasets into the above mentioned structur
 
 This is about extracting the featrues (e.g. face-features)
 
-* For facial features, you should run [the two docker containers](https://github.com/tae898/face)
-* For visual features, you should run something. I'll soon make them into docker containers.
-* For audio features, you should run something. I'll soon make them into docker containers.
-* For text features, you should run something. I'll soon make them into docker containers.
+* For facial features, you should build [the two docker containers](https://github.com/tae898/face)
+* For visual features, you should build something. I'll soon make them into docker containers.
+* For audio features, you should build something. I'll soon make them into docker containers.
+* For text features, you should build something. I'll soon make them into docker containers.
 
 
 1. Install the python requirements by
@@ -115,7 +115,7 @@ This is about extracting the featrues (e.g. face-features)
 
 1. In this current directory, where `README.md` is located, run
     ```bash
-    python3 extract-features.py --dataset DATASET --url-video2frames URL0 --url-insightface URL1 --face-features --face-videos --visual-features --width-max WIDTH_MAX --height-max HEIGHT_MAX --fps-max FPS_MAX --audio-features --text-features
+    python3 extract-features.py --dataset DATASET --face-features --face-videos --visual-features --audio-features --text-features
     ```
 
     Replace `DATASET` with your desired dataset. Only add the boolean flags (i.e. --face-features, --face-videos, --visual-features, --audio-features, --text-features) that you want to extract. For example, if you only want to extract face features and audio features from the MELD dataset, the command should be `python3 extract-features.py --dataset MELD --face-features --audio-features`. 

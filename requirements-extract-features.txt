@@ -1,0 +1,7 @@
+av
+Flask
+joblib
+jsonpickle
+numpy
+Pillow
+tqdm

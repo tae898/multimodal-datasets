@@ -14,6 +14,7 @@ import json
 import random
 import pickle
 from joblib import Parallel, delayed
+import time
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -22,69 +23,191 @@ logging.basicConfig(
 )
 
 
+def begin_face_features_extraction(dataset, video_paths, ip_video2frames, video2frames_port, ip_face_analysis,
+                                   face_analysis_port, fps_max, width_max, height_max, video_ext):
+
+    for video_path in tqdm(video_paths):
+        try:
+            SPLIT = video_path.split('/')[-2]
+            assert SPLIT in ['train', 'val', 'test']
+
+            basename = os.path.basename(video_path)
+            basename_wo_ext = basename.split(f'.{video_ext}')[0]
+
+            with open(video_path, 'rb') as stream:
+                binary_video = stream.read()
+            data = {'fps_max': fps_max, 'width_max': width_max,
+                    'height_max': height_max, 'video': binary_video}
+            data = jsonpickle.encode(data)
+            response = requests.post(
+                f"{ip_video2frames}:{video2frames_port}/", json=data)
+            response = jsonpickle.decode(response.text)
+            frames = response['frames']
+            metadata = response['metadata']
+
+            with open(f"./{dataset}/face-features-metadata/{SPLIT}/{basename_wo_ext}.json", 'w') as stream:
+                json.dump(metadata, stream, indent=4)
+
+            assert len(frames) == len(metadata['frame_idx_original'])
+
+            fa_results_all = []
+            for frame, idx in zip(frames, metadata['frame_idx_original']):
+                data = {'image': frame}
+                data = jsonpickle.encode(data)
+                response = requests.post(
+                    f"{ip_face_analysis}:{face_analysis_port}/", json=data)
+
+                response = jsonpickle.decode(response.text)
+                fa_results = response['fa_results']
+                fa_results_all.append(fa_results)
+
+            with open(f"./{dataset}/face-features/{SPLIT}/{basename_wo_ext}.pkl", 'wb') as stream:
+                pickle.dump(fa_results_all, stream)
+        except Exception as e:
+            print(f"{e}: something went wrong while processing {video_path}!!! "
+                  f"We will skip this file for now.")
+
+
 class Features():
-    def __init__(self, dataset, url_video2frames, url_insightface, face_features,
-                 face_videos, visual_features, width_max, height_max, fps_max,
-                 audio_features, text_features):
+    def __init__(self, dataset):
         self.dataset = dataset
-        self.url_video2frames = url_video2frames
-        self.url_insightface = url_insightface
-        self.face_features = face_features
-        self.face_videos = face_videos
-        self.visual_features = visual_features
+
+    def extract_face_features(
+            self, ip_video2frames, port_video2frames, ip_face_analysis,
+            port_face_analysis, width_max, height_max, fps_max, num_jobs):
+
+        self.ip_video2frames = ip_video2frames
+        self.port_video2frames = port_video2frames
+        self.ip_face_analysis = ip_face_analysis
+        self.port_face_analysis = port_face_analysis
         self.width_max = width_max
         self.height_max = height_max
         self.fps_max = fps_max
-        self.audio_features = audio_features
-        self.text_features = text_features
+        self.num_jobs = num_jobs
 
-        if self.face_features:
-            self.extract_face_features()
-
-    def extract_face_features(self):
         self._get_video_paths()
-        if len(self.video_paths) > 0:
-            logging.debug(f"creating face-features directories ...")
-            for SPLIT in ['train', 'val', 'test']:
-                os.makedirs(f'./{self.dataset}/face-features/{SPLIT}',
-                            exist_ok=True)
-        for video_path in tqdm(self.video_paths):
-            num_wrong = 0
-            try:
-                frames, metadata = self._video2frames(video_path)
-            except Exception as e:
-                logging.warning(f"Couldn't process {video_path}!!!")
-                num_wrong += 1
+        if len(self.video_paths) == 0:
+            error_msg = f"No videos found! {self.video_paths}"
+            logging.error(error_msg)
+            raise ValueError(error_msg)
 
-            logging.warning(f"There are in total of {num_wrong} videos "
-                            f"failed to process.")
+        logging.debug(f"creating face-features directories ...")
+        for SPLIT in ['train', 'val', 'test']:
+            os.makedirs(f'./{self.dataset}/face-features/{SPLIT}',
+                        exist_ok=True)
+
+        logging.debug(f"creating face-features metadata directories ...")
+        for SPLIT in ['train', 'val', 'test']:
+            os.makedirs(f'./{self.dataset}/face-features-metadata/{SPLIT}',
+                        exist_ok=True)
+
+        self._start_face_containers()
+        self._batch_videos()
+
+        logging.debug(f"face features extraction will begin ...")
+        Parallel(n_jobs=self.num_jobs)(
+            delayed(begin_face_features_extraction)(self.dataset, video_paths, self.ip_video2frames, video2frames_port, self.ip_face_analysis,
+                                                    face_analysis_port, self.fps_max, self.width_max, self.height_max, self.video_ext)
+            for video_paths, video2frames_port, face_analysis_port
+            in zip(self.video_paths_batch, self.video2frames_ports, self.face_analysis_ports))
 
     def _get_video_paths(self):
-        ext = {'MELD': 'mp4',
-               'IEMOCAP': 'mp4'}[self.dataset]
-        self.video_paths = glob(f'./{self.dataset}/raw-videos/*/*.{ext}')
+        self.video_ext = {'MELD': 'mp4',
+                          'IEMOCAP': 'mp4'}[self.dataset]
+        self.video_paths = glob(
+            f'./{self.dataset}/raw-videos/*/*.{self.video_ext}')
+        random.shuffle(self.video_paths)
         logging.info(
             f"There are in total of {len(self.video_paths)} videos found "
             f"in {self.dataset}")
 
-    def _video2frames(self, video_path):
-        logging.debug(f"processing {video_path} ...")
-        files = {'video': open(video_path, 'rb')}
-        data = {'fps_max': self.fps_max, 'width_max': self.width_max,
-                'height_max': self.height_max}
-        response = requests.post(
-            self.url_video2frames, files=files, data=data)
-        response = jsonpickle.decode(response.text)
-        frames = response['frames']
-        metadata = response['metadata']
-        logging.debug(f"metadata of the video is {metadata}")
+    def _start_face_containers(self):
+        self.docker_client = docker.from_env()
+        self.video2frames_ports = [20000+i for i in range(self.num_jobs)]
+        self.face_analysis_ports = [30000+i for i in range(self.num_jobs)]
 
-        return frames, metadata
+        self.containers = {}
+        logging.info(
+            f"Creating {self.num_jobs} containers of video2frames ...")
+        self.containers['video2frames'] = \
+            [self.docker_client.containers.run(
+                image='video2frames',
+                detach=True,
+                ports={f'{self.port_video2frames}/tcp':
+                       (self.ip_video2frames, self.video2frames_ports[i])})
+             for i in range(self.num_jobs)]
+
+        logging.info(
+            f"Creating {self.num_jobs} containers of face-analysis ...")
+        self.containers['face_analysis'] = \
+            [self.docker_client.containers.run(
+                image='face-analysis',
+                detach=True,
+                ports={f'{self.port_face_analysis}/tcp':
+                       (self.ip_face_analysis, self.face_analysis_ports[i])})
+             for i in range(self.num_jobs)]
+
+        time_to_sleep = 10
+        logging.debug(
+            f"sleeping for {time_to_sleep} seconds to warm up the containers ...")
+        time.sleep(time_to_sleep)
+        logging.debug(f"sleeping done")
+
+    def _batch_videos(self):
+        logging.debug(f"batching videos into {self.num_jobs} batches ...")
+        BATCH_SIZE = len(self.video_paths) // self.num_jobs
+        self.video_paths_batch = [self.video_paths[BATCH_SIZE*i:BATCH_SIZE*(i+1)]
+                                  for i in range(self.num_jobs)]
+
+        self.video_paths_batch[-1] = self.video_paths_batch[-1] + \
+            self.video_paths[self.num_jobs*BATCH_SIZE:]
+        assert set(self.video_paths) == set(
+            [bar for foo in self.video_paths_batch for bar in foo])
+        logging.info(f"batching done. each batch has "
+                     f"{len(self.video_paths_batch[0])} videos.")
+
+    def extract_face_videos(self):
+        raise NotImplementedError(f"next time, baby")
+
+    def extract_visual_features(self):
+        raise NotImplementedError(f"next time, baby")
+
+    def extract_audio_features(self):
+        raise NotImplementedError(f"next time, baby")
+
+    def extract_text_features(self):
+        raise NotImplementedError(f"next time, baby")
 
 
-def main(**kwargs):
+def main(dataset, ip_video2frames, port_video2frames, ip_face_analysis,
+         port_face_analysis, width_max, height_max, fps_max, num_jobs,
+         face_features, face_videos, visual_features, audio_features,
+         text_features):
 
-    feat = Features(**kwargs)
+    ft = Features(dataset)
+
+    if face_features:
+        kwargs = {'ip_video2frames': ip_video2frames,
+                  'port_video2frames': port_video2frames,
+                  'ip_face_analysis': ip_face_analysis,
+                  'port_face_analysis': port_face_analysis,
+                  'width_max': width_max,
+                  'height_max': height_max,
+                  'fps_max': fps_max,
+                  'num_jobs': num_jobs}
+        ft.extract_face_features(**kwargs)
+
+    if face_videos:
+        ft.extract_face_videos()
+
+    if visual_features:
+        ft.extract_visual_features()
+
+    if audio_features:
+        ft.extract_audio_features()
+
+    if text_features:
+        ft.extract_text_features()
 
 
 if __name__ == "__main__":
@@ -92,11 +215,15 @@ if __name__ == "__main__":
         description='extract features from a multimodal dataset')
     parser.add_argument('--dataset', type=str)
 
-    # parser.add_argument('--url-video2frames', type=str,
-    #                     default='http://127.0.0.1:10001/extract-frames')
+    parser.add_argument('--ip-video2frames', type=str,
+                        default='http://127.0.0.1')
+    parser.add_argument('--port-video2frames', type=int,
+                        default=10001)
+    parser.add_argument('--ip-face-analysis', type=str,
+                        default='http://127.0.0.1')
+    parser.add_argument('--port-face-analysis', type=int,
+                        default=10002)
 
-    # parser.add_argument('--url-insightface', type=str,
-    #                     default='http://127.0.0.1:10002/face-analysis')
     parser.add_argument('--face-features', action='store_true')
     parser.add_argument('--face-videos', action='store_true')
     parser.add_argument('--visual-features', action='store_true')
@@ -106,6 +233,8 @@ if __name__ == "__main__":
 
     parser.add_argument('--audio-features', action='store_true')
     parser.add_argument('--text-features', action='store_true')
+
+    parser.add_argument('--num-jobs', type=int, default=1)
 
     args = parser.parse_args()
     args = vars(args)
