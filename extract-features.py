@@ -15,6 +15,7 @@ import random
 import pickle
 from joblib import Parallel, delayed
 import time
+from python_on_whales import docker as docker_gpu
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -139,19 +140,21 @@ class Features():
 
         logging.info(
             f"Creating {self.num_jobs} containers of face-analysis ...")
-        self.containers['face_analysis'] = \
-            [self.docker_client.containers.run(
-                image='face-analysis',
-                detach=True,
-                ports={f'{self.port_face_analysis}/tcp':
-                       (self.ip_face_analysis, self.face_analysis_ports[i])})
-             for i in range(self.num_jobs)]
 
-        time_to_sleep = 10
-        logging.debug(
+        self.containers['face_analysis'] = []
+        for i in range(self.num_jobs):
+            foo = \
+            docker_gpu.run(
+                image='face-analysis-cuda',
+                gpus='all',
+                detach=True,
+                publish=[(self.face_analysis_ports[i], 10002)])
+            self.containers['face_analysis'].append(foo)
+            time_to_sleep =30
+            logging.debug(
             f"sleeping for {time_to_sleep} seconds to warm up the containers ...")
-        time.sleep(time_to_sleep)
-        logging.debug(f"sleeping done")
+            time.sleep(time_to_sleep)
+            logging.debug(f"sleeping done")
 
     def _batch_videos(self):
         logging.debug(f"batching videos into {self.num_jobs} batches ...")
