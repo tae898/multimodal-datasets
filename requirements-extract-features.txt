@@ -6,3 +6,4 @@ numpy
 Pillow
 tqdm
 docker
+python-on-whales

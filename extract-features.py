@@ -70,8 +70,9 @@ def begin_face_features_extraction(dataset, video_paths, ip_video2frames, video2
 
 
 class Features():
-    def __init__(self, dataset):
+    def __init__(self, dataset, run_on_gpu):
         self.dataset = dataset
+        self.run_on_gpu = run_on_gpu
 
     def extract_face_features(
             self, ip_video2frames, port_video2frames, ip_face_analysis,
@@ -141,18 +142,22 @@ class Features():
         logging.info(
             f"Creating {self.num_jobs} containers of face-analysis ...")
 
+        if self.run_on_gpu:
+            image_name = 'face-analysis-cuda'
+        else:
+            image_name = 'face-analysis'
         self.containers['face_analysis'] = []
         for i in range(self.num_jobs):
             foo = \
-            docker_gpu.run(
-                image='face-analysis-cuda',
-                gpus='all',
-                detach=True,
-                publish=[(self.face_analysis_ports[i], 10002)])
+                docker_gpu.run(
+                    image=image_name,
+                    gpus='all',
+                    detach=True,
+                    publish=[(self.face_analysis_ports[i], self.port_face_analysis)])
             self.containers['face_analysis'].append(foo)
-            time_to_sleep =30
+            time_to_sleep = 30
             logging.debug(
-            f"sleeping for {time_to_sleep} seconds to warm up the containers ...")
+                f"sleeping for {time_to_sleep} seconds to warm up the containers ...")
             time.sleep(time_to_sleep)
             logging.debug(f"sleeping done")
 
@@ -185,9 +190,9 @@ class Features():
 def main(dataset, ip_video2frames, port_video2frames, ip_face_analysis,
          port_face_analysis, width_max, height_max, fps_max, num_jobs,
          face_features, face_videos, visual_features, audio_features,
-         text_features):
+         text_features, run_on_gpu):
 
-    ft = Features(dataset)
+    ft = Features(dataset, run_on_gpu)
 
     if face_features:
         kwargs = {'ip_video2frames': ip_video2frames,
@@ -238,6 +243,7 @@ if __name__ == "__main__":
     parser.add_argument('--text-features', action='store_true')
 
     parser.add_argument('--num-jobs', type=int, default=1)
+    parser.add_argument('--run-on-gpu', action='store_true')
 
     args = parser.parse_args()
     args = vars(args)
