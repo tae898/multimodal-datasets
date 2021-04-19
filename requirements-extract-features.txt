@@ -5,3 +5,4 @@ jsonpickle
 numpy
 Pillow
 tqdm
+docker
