@@ -115,10 +115,10 @@ This is about extracting the featrues (e.g. face-features)
 
 1. In this current directory, where `README.md` is located, run
     ```bash
-    python3 extract-features.py --dataset DATASET --face-features --face-videos --visual-features --audio-features --text-features
+    python3 extract-features.py --dataset DATASET --face-features --face-videos --visual-features --audio-features --text-features --run-on-gpu --num-jobs NUM_JOBS 
     ```
 
-    Replace `DATASET` with your desired dataset. Only add the boolean flags (i.e. --face-features, --face-videos, --visual-features, --audio-features, --text-features) that you want to extract. For example, if you only want to extract face features and audio features from the MELD dataset, the command should be `python3 extract-features.py --dataset MELD --face-features --audio-features`. 
+    Replace `DATASET` with your desired dataset. Only add the boolean flags (i.e. --face-features, --face-videos, --visual-features, --audio-features, --text-features) that you want to extract. For example, if you only want to extract face features and audio features from the MELD dataset, the command should be `python3 extract-features.py --dataset MELD --face-features --audio-features`. If you want to run in parallel, you can add the gpu flag `--run-on-gpu` and even add more workers `--num-jobs NUM_JOBS`. Running on GPU requires you to have a NVIDIA GPU and you should build the GPU images for this. Read https://github.com/tae898/face for more information.
 
 ### Annotate the dataset in the EMISSOR format (optional)
 
