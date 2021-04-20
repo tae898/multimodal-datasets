@@ -42,7 +42,7 @@ def begin_face_features_extraction(dataset, video_paths, video2frames_port,
             if os.path.isfile(save_path_metadata) and \
                 os.path.getsize(save_path_metadata) > BYTES_AT_LEAST and \
                     os.path.isfile(save_path_face_features) and \
-            and os.path.getsize(save_path_face_features) > BYTES_AT_LEAST:
+                    os.path.getsize(save_path_face_features) > BYTES_AT_LEAST:
                 logging.info(
                     f"{video_path}, {save_path_metadata}, {save_path_face_features} "
                     f"seems to be already done. skipping ...")
