@@ -15,6 +15,7 @@ import pickle
 from joblib import Parallel, delayed
 import time
 from python_on_whales import docker
+import io
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -64,14 +65,18 @@ def begin_face_features_extraction(dataset, video_paths, video2frames_port,
 
             assert len(frames) == len(metadata['frame_idx_original'])
 
+            logging.info(f"decompressing frames ...")
             fa_results_all = []
-            for frame, idx in zip(frames, metadata['frame_idx_original']):
-                data = {'image': frame}
+            for frame_bytestring, idx in zip(frames, metadata['frame_idx_original']):
+
+                data = {'image': frame_bytestring}
                 data = jsonpickle.encode(data)
                 response = requests.post(
                     f"{'http://127.0.0.1'}:{face_analysis_port}/", json=data)
+                logging.info(f"{response} received")
 
                 response = jsonpickle.decode(response.text)
+                
                 fa_results = response['fa_results']
                 fa_results_all.append(fa_results)
 
