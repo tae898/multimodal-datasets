@@ -1,3 +1,4 @@
+coolname
 joblib
 jsonpickle
 numpy
@@ -5,3 +6,4 @@ Pillow
 tqdm
 python-on-whales
 requests
+scipy

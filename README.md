@@ -69,7 +69,9 @@ Beware that the numbers are not always the same. For example, there might be a v
 
 ## How to process each dataset
 
-There several levels.
+There several levels. 
+
+**Use python >= 3.7**
 
 ### Dataset extraction
 
@@ -132,7 +134,7 @@ This is optional. The processed datasets can also be annotated in the [EMISSOR a
 
 1. In this current directory, where `README.md` is located, run
     ```bash
-    python3 annotate-emissor.py --dataset DATASET
+    python3 annotate-emissor.py --dataset DATASET --num-jobs NUM_JOBS
     ```
 
     The python script can only use the features extracted.

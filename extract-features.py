@@ -8,7 +8,6 @@ import jsonpickle
 from PIL import Image
 import numpy as np
 from glob import glob
-import av
 import json
 import random
 import pickle
@@ -65,7 +64,6 @@ def begin_face_features_extraction(dataset, video_paths, video2frames_port,
 
             assert len(frames) == len(metadata['frame_idx_original'])
 
-            logging.info(f"decompressing frames ...")
             fa_results_all = []
             for frame_bytestring, idx in zip(frames, metadata['frame_idx_original']):
 

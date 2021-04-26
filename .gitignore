@@ -138,12 +138,13 @@ emotion-detection-emotion-detection-1.0.tar.gz
 IEMOCAP_full_release.tar.gz
 MELD.Raw.tar.gz
 
-raw-videos/
-raw-audios/
-raw-texts/
-face-videos/
-face-features/
-visual-features/
-audio-features/
-text-features/
-face-features-metadata/
+*/raw-videos/
+*/raw-audios/
+*/raw-texts/
+*/face-videos/
+*/face-features/
+*/face-features-metadata/
+*/visual-features/
+*/audio-features/
+*/text-features/
+*/emissor/
