@@ -23,6 +23,10 @@ This repo collects multimodal datasets and process them in a nice manner. Please
 
     This dataset contains dyadic text dialogues.
 
+5. [CarLani](https://surfdrive.surf.nl/files/index.php/s/vShnnc6F6VDyJ9k/download)
+
+    This dataset is a conversation between a robot and a human.
+
 ## Dataset Structure
 
 Every dataset has their own directory and it'll look something like below.
@@ -91,6 +95,7 @@ This is about extracting the original datasets into the above mentioned structur
    - Put `IEMOCAP_full_release.tar.gz` in `IEMOCAP/`
    - Put `emotion-detection-emotion-detection-1.0.tar.gz` in `EmoryNLP/`
    - Put `ijcnlp_dailydialog.zip` in `DailyDialog/`
+   - Put `CarLani.zip` in `CarLani/`
 
 4. In this current directory, where `README.md` is located, run
     ```bash

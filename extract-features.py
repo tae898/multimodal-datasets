@@ -134,7 +134,8 @@ class Features():
 
     def _get_video_paths(self):
         self.video_ext = {'MELD': '.mp4',
-                          'IEMOCAP': '.mp4'}[self.dataset]
+                          'IEMOCAP': '.mp4',
+                          'CarLani': '.mp4'}[self.dataset]
         self.video_paths = glob(
             f'./{self.dataset}/raw-videos/*/*{self.video_ext}')
 
