@@ -1,0 +1,7 @@
+{
+    "train": {
+        "dia0-utt0": "anger",
+        "dia0-utt1": "neutral",
+        "dia0-utt2": "joy"
+    }
+}

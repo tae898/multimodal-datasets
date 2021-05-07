@@ -1,0 +1,9 @@
+{
+    "train": {
+        "dia0": [
+            "dia0-utt0",
+            "dia0-utt1",
+            "dia0-utt2"
+        ]
+    }
+}
