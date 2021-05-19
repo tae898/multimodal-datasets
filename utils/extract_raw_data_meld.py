@@ -101,7 +101,7 @@ def run():
         f"This dataset has all three modalities!\n"\
         f"Every utterance is part of a dialogue. If you also want to take the dialogue\n"\
         f"into consideration, see utterance-ordered.json\n\n"\
-        f"This README is written by Taewoon Kim (https://tae898.github.io/)"
+        f"This README is written by Taewoon Kim (https://taewoonkim.com)"
 
     with open(f"./MELD/README.txt", 'w') as stream:
         stream.write(README)

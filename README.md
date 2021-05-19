@@ -148,4 +148,4 @@ This is optional. The processed datasets can also be annotated in the [EMISSOR a
 
 If you have any questions, or have interesting datasets, then please let me know.
 
-- [Taewoon Kim](https://tae898.github.io/)
+- [Taewoon Kim](https://taewoonkim.com)

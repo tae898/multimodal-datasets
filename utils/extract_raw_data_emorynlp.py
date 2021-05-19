@@ -85,7 +85,7 @@ def run():
         f"in an utterance. I'll just take the first in the list as the speaker.\n"\
         f"Every utterance is part of a dialogue. If you also want to take the dialogue\n"\
         f"into consideration, see utterance-ordered.json\n"\
-        f"This README is written by Taewoon Kim (https://tae898.github.io/)"
+        f"This README is written by Taewoon Kim (https://taewoonkim.com)"
 
     with open(f"./EmoryNLP/README.txt", 'w') as stream:
         stream.write(README)

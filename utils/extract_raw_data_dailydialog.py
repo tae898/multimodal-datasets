@@ -107,7 +107,7 @@ def run():
         f"There are no speaker label. I assume that the two speakers are taking turns.\n"\
         f"That is, every utterance spoken by speaker A is followed by another utterance\n"\
         f"followed by speaker B.\n\n"\
-        f"This README is written by Taewoon Kim (https://tae898.github.io/)"
+        f"This README is written by Taewoon Kim (https://taewoonkim.com)"
 
     with open(f"./DailyDialog/README.txt", 'w') as stream:
         stream.write(README)

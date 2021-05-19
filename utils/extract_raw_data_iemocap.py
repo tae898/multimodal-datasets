@@ -446,7 +446,7 @@ def create_labels():
         f"One thing annoying about this dataset is that there are a lot of 'xxx' labels.\n"\
         f", which means they are 'Undecided' due to the labelers not agreeing on one thing.\n"\
         f"If you want to see the votes, see 'undecided-emotions.json'\n\n"\
-        f"This README is written by Taewoon Kim (https://tae898.github.io/)"
+        f"This README is written by Taewoon Kim (https://taewoonkim.com)"
 
     with open(f"./IEMOCAP/README.txt", 'w') as stream:
         stream.write(README)

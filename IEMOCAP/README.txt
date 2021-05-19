@@ -5,4 +5,4 @@ One thing annoying about this dataset is that there are a lot of 'xxx' labels.
 , which means they are 'Undecided' due to the labelers not agreeing on one thing.
 If you want to see the votes, see 'undecided-emotions.json'
 
-This README is written by Taewoon Kim (https://tae898.github.io/)
+This README is written by Taewoon Kim (https://taewoonkim.com)
