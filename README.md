@@ -9,23 +9,25 @@ This repo collects multimodal datasets and process them in a nice manner. Please
     This dataset is from the tv series *Friends*.
     It's got visual, audio, and text modalities.
 
-2. [IEMOCAP](https://sail.usc.edu/iemocap/)
+1. [IEMOCAP](https://sail.usc.edu/iemocap/)
 
     This dataset includes dyadic conversation between two people. 
     There are 10 actors in total. It's got visual, audio, and text modalities.
 
-3. [EmoryNLP](https://github.com/emorynlp/emotion-detection)
+
+1. [CarLani](https://surfdrive.surf.nl/files/index.php/s/vShnnc6F6VDyJ9k/download)
+
+    This dataset is a conversation between a robot and a human.
+
+<!-- 3. [EmoryNLP](https://github.com/emorynlp/emotion-detection)
 
     This dataset is also from the tv series *Friends*. 
     However, unlike MELD, it's dyadic and it's only got text.
 
 4. [DailyDialog](http://yanran.li/dailydialog.html)
 
-    This dataset contains dyadic text dialogues.
+    This dataset contains dyadic text dialogues. -->
 
-5. [CarLani](https://surfdrive.surf.nl/files/index.php/s/vShnnc6F6VDyJ9k/download)
-
-    This dataset is a conversation between a robot and a human.
 
 ## Dataset Structure
 

@@ -15,9 +15,7 @@ class Dataset():
     def __init__(self, dataset):
         self.archives = \
             {'MELD': 'MELD.Raw.tar.gz',
-             'IEMOCAP': 'IEMOCAP_full_release.tar.gz',
-             'EmoryNLP': 'emotion-detection-emotion-detection-1.0.tar.gz',
-             'DailyDialog': 'ijcnlp_dailydialog.zip'}
+             'IEMOCAP': 'IEMOCAP_full_release.tar.gz'}
         self.SUPPORTED_DATASETS = list(self.archives.keys())
         self.dataset = dataset
 
@@ -43,12 +41,6 @@ class Dataset():
         elif self.dataset == 'IEMOCAP':
             from utils.extract_archive import extract_iemocap
             extract_iemocap(archive_path)
-        if self.dataset == 'EmoryNLP':
-            from utils.extract_archive import extract_emorynlp
-            extract_emorynlp(archive_path)
-        if self.dataset == 'DailyDialog':
-            from utils.extract_archive import extract_dailydialog
-            extract_dailydialog(archive_path)
         logging.info(f"extraction complete.")
 
     def create_raw_directories(self):
@@ -65,19 +57,7 @@ class Dataset():
 
     def extract_raw_data(self):
         logging.debug(f"extracting raw data to {self.modalities}...")
-        if self.dataset == 'EmoryNLP':
-            from utils import extract_raw_data_emorynlp
-            extract_raw_data_emorynlp.run()
-            shutil.rmtree(
-                './EmoryNLP/emotion-detection-emotion-detection-1.0',
-                ignore_errors=True)
-        elif self.dataset == 'DailyDialog':
-            from utils import extract_raw_data_dailydialog
-            extract_raw_data_dailydialog.run()
-            shutil.rmtree(
-                './DailyDialog/ijcnlp_dailydialog',
-                ignore_errors=True)
-        elif self.dataset == 'MELD':
+        if self.dataset == 'MELD':
             from utils import extract_raw_data_meld
             extract_raw_data_meld.run()
             shutil.rmtree('./MELD/MELD.Raw', ignore_errors=True)
