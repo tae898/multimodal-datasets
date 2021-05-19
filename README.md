@@ -95,8 +95,6 @@ This is about extracting the original datasets into the above mentioned structur
 3. Move the archive in the corresponding directory.
    - Put `MELD.Raw.tar.gz` in `MELD/`
    - Put `IEMOCAP_full_release.tar.gz` in `IEMOCAP/`
-   - Put `emotion-detection-emotion-detection-1.0.tar.gz` in `EmoryNLP/`
-   - Put `ijcnlp_dailydialog.zip` in `DailyDialog/`
    - Put `CarLani.zip` in `CarLani/`
 
 4. In this current directory, where `README.md` is located, run
