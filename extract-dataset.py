@@ -15,7 +15,8 @@ class Dataset():
     def __init__(self, dataset):
         self.archives = \
             {'MELD': 'MELD.Raw.tar.gz',
-             'IEMOCAP': 'IEMOCAP_full_release.tar.gz'}
+             'IEMOCAP': 'IEMOCAP_full_release.tar.gz',
+             'CarLani': 'CarLani.zip'}
         self.SUPPORTED_DATASETS = list(self.archives.keys())
         self.dataset = dataset
 
@@ -41,14 +42,15 @@ class Dataset():
         elif self.dataset == 'IEMOCAP':
             from utils.extract_archive import extract_iemocap
             extract_iemocap(archive_path)
+        elif self.dataset == 'CarLani':
+            from utils.extract_archive import extract_carlani
+            extract_carlani(archive_path)
+
         logging.info(f"extraction complete.")
 
     def create_raw_directories(self):
         logging.debug(f"creating raw directories ...")
         self.modalities = ['videos', 'audios', 'texts']
-        if self.dataset in ['EmoryNLP', 'DailyDialog']:
-            self.modalities.remove('videos')
-            self.modalities.remove('audios')
 
         for modality in self.modalities:
             for SPLIT in ['train', 'val', 'test']:
@@ -66,6 +68,10 @@ class Dataset():
             from utils import extract_raw_data_iemocap
             extract_raw_data_iemocap.run()
             shutil.rmtree('./IEMOCAP/IEMOCAP_full_release', ignore_errors=True)
+
+        elif self.dataset == 'CarLani':
+            from utils import extract_raw_data_carlani
+            extract_raw_data_carlani.run()
 
         logging.info(f"extracting {self.modalities} raw data complete.")
 

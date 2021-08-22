@@ -29,19 +29,9 @@ def extract_iemocap(archive_path):
     os.remove("./IEMOCAP/._IEMOCAP_full_release")
 
 
-def extract_emorynlp(archive_path):
-    import tarfile
-    my_tar = tarfile.open(archive_path)
-    my_tar.extractall('./EmoryNLP/')
-    my_tar.close()
-
-
-def extract_dailydialog(archive_path):
+def extract_carlani(archive_path):
     import zipfile
-    with zipfile.ZipFile(archive_path, 'r') as zip_ref:
-        zip_ref.extractall('./DailyDialog')
 
-    for subzip in ['train.zip', 'validation.zip', 'test.zip']:
-        with zipfile.ZipFile(f"DailyDialog/ijcnlp_dailydialog/{subzip}", 'r') \
-                as zip_ref:
-            zip_ref.extractall('./DailyDialog/ijcnlp_dailydialog/')
+    my_zip = zipfile.ZipFile(archive_path)
+    my_zip.extractall('./CarLani')
+    my_zip.close()

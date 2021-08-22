@@ -18,6 +18,7 @@ import io
 import jsonpickle
 from python_on_whales import docker
 import requests
+import time
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -131,7 +132,7 @@ class DataSet():
         self.num_jobs = num_jobs
         self._batch_diaids()
 
-        ems = [Emissor(self.dataset, batch, 40000+idx, port_docker_video2frames,
+        ems = [Emissor(self.dataset, batch, 20000+idx, port_docker_video2frames,
                        face_prob_threshold, face_cos_distance_threshold,
                        width_max, height_max, fps_max, self.utterance_ordered,
                        self.emotions)
@@ -156,9 +157,14 @@ class Emissor():
         logging.debug(f"creating video2frames container, {self.video2frames_port} "
                       f"to  {port_docker_video2frames}...")
         self.container = \
-            docker.run(image='video2frames', detach=True,
+            docker.run(image='tae898/video2frames', detach=True,
                        publish=[(self.video2frames_port, port_docker_video2frames)])
         logging.info(f"video2frames container created!")
+        time_to_sleep = 5
+        logging.debug(
+            f"sleeping for {time_to_sleep} seconds to warm up the container ...")
+        time.sleep(time_to_sleep)
+        logging.debug(f"sleeping done")
 
         self.face_prob_threshold = face_prob_threshold
         self.face_cos_distance_threshold = face_cos_distance_threshold
@@ -401,8 +407,9 @@ class Emissor():
 
             for i, feat in enumerate(ff):
                 # age / gender estimation is too poor.
-                age = feat['age']
-                gender = 'male' if feat['gender'] == 1 else 'female'
+                age = feat['age']['mean']
+                gender = feat['gender']['m']
+                gender = 'male' if gender > 0.5 else 'female'
                 bbox = [int(num) for num in feat['bbox'].tolist()]
                 faceprob = round(feat['det_score'], 3)
                 name = self.face_names_dia[uttid][idx][i]

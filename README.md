@@ -15,18 +15,9 @@ This repo collects multimodal datasets and process them in a nice manner. Please
     There are 10 actors in total. It's got visual, audio, and text modalities.
 
 
-1. [CarLani](https://surfdrive.surf.nl/files/index.php/s/vShnnc6F6VDyJ9k/download)
+1. [CarLani](https://surfdrive.surf.nl/files/index.php/s/I5Gg87eVN3l1KEP/download)
 
-    This dataset is a conversation between a robot and a human.
-
-<!-- 3. [EmoryNLP](https://github.com/emorynlp/emotion-detection)
-
-    This dataset is also from the tv series *Friends*. 
-    However, unlike MELD, it's dyadic and it's only got text.
-
-4. [DailyDialog](http://yanran.li/dailydialog.html)
-
-    This dataset contains dyadic text dialogues. -->
+    This dataset is a conversation between the robot named Leolani and the human named Carl.
 
 
 ## Dataset Structure
@@ -81,7 +72,7 @@ There several levels.
 
 ### Dataset extraction
 
-This is about extracting the original datasets into the above mentioned structure (i.e. raw-videos, raw-audios, raww-texts)
+This is about extracting the original datasets into the above mentioned structure (i.e. raw-videos, raw-audios, raw-texts)
 
 1. Since I don't have license to all of the datasets, you should contact the dataset authors and download them yourself.
 
@@ -104,11 +95,26 @@ This is about extracting the original datasets into the above mentioned structur
 
     Replace `DATASET` with your desired dataset (e.g. `python3 extract-dataset.py --dataset MELD`)
 
+**In the next sections, we will go through extracting features and annotating with EMISSOR. Go ahead if you want to do it youself, otherwise you can just download them from the below links.**
+
+1. [MELD]()
+
+    In the current repo root directory, unzip what you downloaded into the directory `./MELD/`
+
+2. [IEMOCAP]()
+
+    In the current repo root directory, unzip what you downloaded into the directory `./IEMOCAP/`
+
+3. [CarLani](https://surfdrive.surf.nl/files/index.php/s/I5Gg87eVN3l1KEP/download)
+
+    In the current repo root directory, unzip what you downloaded into the directory `./CarLani/`
+    
+
 ### Feature Extraction
 
 This is about extracting the featrues (e.g. face-features)
 
-* For facial features, you should build [the two docker containers](https://github.com/tae898/face)
+* For facial features, you will pull three docker images.
 * For visual features, you should build something. I'll soon make them into docker containers.
 * For audio features, you should build something. I'll soon make them into docker containers.
 * For text features, you should build something. I'll soon make them into docker containers.
@@ -120,7 +126,7 @@ This is about extracting the featrues (e.g. face-features)
     ```
     I highly recommend you to run it in a virtual environment.
 
-1. In this current directory, where `README.md` is located, run
+2. In this current directory, where `README.md` is located, run
     ```bash
     python3 extract-features.py --dataset DATASET --face-features --face-videos --visual-features --audio-features --text-features --run-on-gpu --num-jobs NUM_JOBS 
     ```

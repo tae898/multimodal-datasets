@@ -10,7 +10,8 @@ logging.basicConfig(
 
 
 def extract_wav_from_video(loadpath, savepath, sr=22050):
-    subprocess.call(['ffmpeg', '-i', loadpath,
+    subprocess.call(['ffmpeg', '-y',
+                     '-i', loadpath,
                      '-acodec', 'pcm_s16le',
                      '-ac', '1',
                      '-ar', str(sr),
@@ -18,7 +19,7 @@ def extract_wav_from_video(loadpath, savepath, sr=22050):
 
 
 def add_audio_on_video(videopath, audiopath):
-    
+
     temppath = videopath + '.TEMP.mp4'
     logging.debug(f"Adding {audiopath} to {videopath} ...")
 
