@@ -182,8 +182,10 @@ class Emissor():
         exts = {'raw-videos': ['.mp4', '.avi'],
                 'raw-audios': ['.mp3', '.wav'],
                 'raw-texts': ['.json'],
-                'face-features': ['.pkl'],
-                'face-features-metadata': ['.json']}
+                'face-features/face': ['.pkl'],
+                'face-features/age': ['.pkl'],
+                'face-features/gender': ['.pkl'],
+                'face-features/metadata': ['.json']}
 
         for modality in list(exts.keys()):
             modality_path = f"./{self.dataset}/{modality}/"
@@ -218,7 +220,7 @@ class Emissor():
         chat_emissor_dia = []
         image_emissor_dia = []
 
-        if self.paths['face-features'] is not None:
+        if self.paths['face-features/face'] is not None:
             self.face_recognition_dia(SPLIT, diaid)
 
         starttime_msec = 0
@@ -265,8 +267,8 @@ class Emissor():
                       f"utterance(s)")
         for uttid in self.utterance_ordered[SPLIT][diaid]:
             try:
-                face_features_path = self.paths['face-features'][SPLIT][uttid]
-                face_metadata_path = self.paths['face-features-metadata'][SPLIT][uttid]
+                face_features_path = self.paths['face-features/face'][SPLIT][uttid]
+                face_metadata_path = self.paths['face-features/metadata'][SPLIT][uttid]
 
                 with open(face_features_path, 'rb') as stream:
                     face_features = pickle.load(stream)
@@ -355,18 +357,43 @@ class Emissor():
                 logging.error(f"{e}: no video information on {video_path}!")
 
         if frames is not None:
-            face_features_path = self.paths['face-features'][SPLIT][uttid]
-            if video_path is not None and face_features_path is not None:
-                with open(face_features_path, 'rb') as stream:
-                    face_features = pickle.load(stream)
-                face_features = [face_features[idx]
-                                 for idx in metadata['frame_idx_original']]
-                assert len(frames) == len(
-                    face_features), f"{len(frames)}, {len(face_features)}"
+            face_path = self.paths['face-features/face'][SPLIT][uttid]
+            age_path = self.paths['face-features/age'][SPLIT][uttid]
+            gender_path = self.paths['face-features/gender'][SPLIT][uttid]
 
-                face_features = [[ff for ff in face_feature
-                                  if ff['det_score'] > self.face_prob_threshold]
-                                 for face_feature in face_features]
+            if video_path is not None and \
+                    face_path is not None and \
+                    age_path is not None and \
+                    gender_path is not None:
+                with open(face_path, 'rb') as stream:
+                    faces = pickle.load(stream)
+                faces = [faces[idx] for idx in metadata['frame_idx_original']]
+
+                with open(age_path, 'rb') as stream:
+                    ages = pickle.load(stream)
+                ages = [ages[idx] for idx in metadata['frame_idx_original']]
+
+                with open(gender_path, 'rb') as stream:
+                    genders = pickle.load(stream)
+                genders = [genders[idx]
+                           for idx in metadata['frame_idx_original']]
+
+                assert len(frames) == len(faces) == len(ages) == len(genders)
+
+                face_features = []
+
+                for face, age, gender in zip(faces, ages, genders):
+                    face_features_ = []
+                    for face_, age_, gender_ in zip(face, age, gender):
+                        if face_['det_score'] > self.face_prob_threshold:
+                            face_features_.append(
+                                {'bbox': face_['bbox'],
+                                 'det_score': face_['det_score'],
+                                 'age': age_,
+                                 'gender': gender_})
+                        else:
+                            face_features_.append(None)
+                    face_features.append(face_features_)
 
         return frames, duration_msec, fps_original, face_features, frame_idx_original
 
@@ -406,7 +433,9 @@ class Emissor():
             frame_info['type'] = 'ImageSignal'
 
             for i, feat in enumerate(ff):
-                # age / gender estimation is too poor.
+                if feat is None:
+                    continue
+                print(f"TAETAETAE {feat}")
                 age = feat['age']['mean']
                 gender = feat['gender']['m']
                 gender = 'male' if gender > 0.5 else 'female'

@@ -57,7 +57,7 @@ Beware that the numbers are not always the same. For example, there might be a v
 3. `raw-audios` contains the raw non-processed audios.
 4. `raw-texts` contains the raw non-processed texts.
 5. `face-videos` contains the face videos made from the facial features.
-6. `face-features` contains the detected faces and their features using this [repo](https://github.com/tae898/face). The features are age, bounding box, face detection probability, gender, five landmarks, and 512-dimensional arcface embedding vector.
+6. `face-features` contains the detected faces and their features using this [repo](https://github.com/tae898/face-detection-recognition) and [repo](https://github.com/tae898/age-gender) The features are age, bounding box, face detection probability, gender, five landmarks, and 512-dimensional arcface embedding vector.
 7. `visual-features` are other visual features (e.g. COCO 80 objects) that are not facial features.
 8. `audio-features` contains audio features (e.g. spectrogram, encoded embeddings, etc.)
 9. `text-features` contains text features (e.g. word embeddings, BERT-like model features, etc.)

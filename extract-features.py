@@ -38,13 +38,20 @@ def begin_face_features_extraction(dataset, video_paths, video2frames_port,
             basename = os.path.basename(video_path)
             basename_wo_ext = basename.split(f'{video_ext}')[0]
 
-            save_path_metadata = f"./{dataset}/face-features-metadata/{SPLIT}/{basename_wo_ext}.json"
-            save_path_face_features = f"./{dataset}/face-features/{SPLIT}/{basename_wo_ext}.pkl"
+            save_path_metadata = f"./{dataset}/face-features/metadata/{SPLIT}/{basename_wo_ext}.json"
+            save_path_face_features = f"./{dataset}/face-features/face/{SPLIT}/{basename_wo_ext}.pkl"
+            save_path_age = f"./{dataset}/face-features/age/{SPLIT}/{basename_wo_ext}.pkl"
+            save_path_gender = f"./{dataset}/face-features/gender/{SPLIT}/{basename_wo_ext}.pkl"
 
             if os.path.isfile(save_path_metadata) and \
-                os.path.getsize(save_path_metadata) > BYTES_AT_LEAST and \
-                    os.path.isfile(save_path_face_features) and \
-                    os.path.getsize(save_path_face_features) > BYTES_AT_LEAST:
+               os.path.getsize(save_path_metadata) > BYTES_AT_LEAST and \
+               os.path.isfile(save_path_face_features) and \
+               os.path.getsize(save_path_face_features) > BYTES_AT_LEAST and \
+               os.path.isfile(save_path_age) and \
+               os.path.getsize(save_path_age) > BYTES_AT_LEAST and \
+               os.path.isfile(save_path_gender) and \
+               os.path.getsize(save_path_gender) > BYTES_AT_LEAST:
+
                 logging.info(
                     f"{video_path}, {save_path_metadata}, {save_path_face_features} "
                     f"seems to be already done. skipping ...")
@@ -66,7 +73,9 @@ def begin_face_features_extraction(dataset, video_paths, video2frames_port,
 
             assert len(frames) == len(metadata['frame_idx_original'])
 
-            fdr_ag_all = []
+            fdr_all = []
+            age_all = []
+            gender_all = []
             for frame_bytestring, idx in zip(frames, metadata['frame_idx_original']):
 
                 data = {'image': frame_bytestring}
@@ -100,14 +109,19 @@ def begin_face_features_extraction(dataset, video_paths, video2frames_port,
 
                 assert len(fdr) == len(ages) == len(genders)
 
-                for idx, (age, gender) in enumerate(zip(ages, genders)):
-                    fdr[idx]['age'] = age
-                    fdr[idx]['gender'] = gender
+                fdr_all.append(fdr)
+                age_all.append(ages)
+                gender_all.append(genders)
 
-                fdr_ag_all.append(fdr)
+            assert len(fdr_all) == len(age_all) == len(gender_all)
 
             with open(save_path_face_features, 'wb') as stream:
-                pickle.dump(fdr_ag_all, stream)
+                pickle.dump(fdr_all, stream)
+            with open(save_path_age, 'wb') as stream:
+                pickle.dump(age_all, stream)
+            with open(save_path_gender, 'wb') as stream:
+                pickle.dump(gender_all, stream)
+
         except Exception as e:
             print(f"{e}: something went wrong while processing {video_path}!!! "
                   f"We will skip this file for now.")
@@ -137,15 +151,26 @@ class Features():
             logging.error(error_msg)
             raise ValueError(error_msg)
 
-        logging.debug(f"creating face-features directories ...")
-        for SPLIT in ['train', 'val', 'test']:
-            os.makedirs(f'./{self.dataset}/face-features/{SPLIT}',
-                        exist_ok=True)
-
         logging.debug(f"creating face-features metadata directories ...")
         for SPLIT in ['train', 'val', 'test']:
-            os.makedirs(f'./{self.dataset}/face-features-metadata/{SPLIT}',
+            os.makedirs(f'./{self.dataset}/face-features/metadata/{SPLIT}',
                         exist_ok=True)
+
+        logging.debug(f"creating face-features face directories ...")
+        for SPLIT in ['train', 'val', 'test']:
+            os.makedirs(f'./{self.dataset}/face-features/face/{SPLIT}',
+                        exist_ok=True)
+
+        logging.debug(f"creating face-features age directories ...")
+        for SPLIT in ['train', 'val', 'test']:
+            os.makedirs(f'./{self.dataset}/face-features/age/{SPLIT}',
+                        exist_ok=True)
+
+        logging.debug(f"creating face-features gender directories ...")
+        for SPLIT in ['train', 'val', 'test']:
+            os.makedirs(f'./{self.dataset}/face-features/gender/{SPLIT}',
+                        exist_ok=True)
+
 
         self._start_face_containers()
         self._batch_videos()
