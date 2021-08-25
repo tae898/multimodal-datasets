@@ -230,14 +230,16 @@ class Features():
             f"Creating {self.num_jobs} containers of face-detection-recognition ...")
         if self.run_on_gpu:
             image_name = 'tae898/face-detection-recognition-cuda'
+            gpus = 'all'
         else:
             image_name = 'tae898/face-detection-recognition'
+            gpus = None
         self.containers['face_detection_recognition'] = []
         for i in range(self.num_jobs):
             container = \
                 docker.run(
                     image=image_name,
-                    gpus='all',
+                    gpus=gpus,
                     detach=True,
                     publish=[(self.face_detection_recognition_ports[i], self.port_docker_face_detection_recognition)])
             self.containers['face_detection_recognition'].append(container)
