@@ -97,11 +97,11 @@ This is about extracting the original datasets into the above mentioned structur
 
 **In the next sections, we will go through extracting features and annotating with EMISSOR. Go ahead if you want to do it youself, otherwise you can just download them from the below links.**
 
-1. [MELD]()
+1. [MELD](https://surfdrive.surf.nl/files/index.php/s/hGghcDwmKb5OM07/download)
 
     In the current repo root directory, unzip what you downloaded into the directory `./MELD/`
 
-2. [IEMOCAP]()
+2. [IEMOCAP](https://surfdrive.surf.nl/files/index.php/s/HLECWlhvDSEhtgW/download)
 
     In the current repo root directory, unzip what you downloaded into the directory `./IEMOCAP/`
 
