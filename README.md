@@ -149,6 +149,20 @@ This is optional. The processed datasets can also be annotated in the [EMISSOR a
     ```
 
     The python script can only use the features extracted.
+
+You can also download them from the below link.
+
+1. [MELD](https://surfdrive.surf.nl/files/index.php/s/fwiMEPEDCnPjfGm/download)
+
+    In the current repo root directory, unzip what you downloaded into the directory `./MELD/`
+
+2. [IEMOCAP](https://surfdrive.surf.nl/files/index.php/s/fDfr1yRT8SqATuV/download)
+
+    In the current repo root directory, unzip what you downloaded into the directory `./IEMOCAP/`
+
+3. [CarLani](https://surfdrive.surf.nl/files/index.php/s/I5Gg87eVN3l1KEP/download)
+
+    In the current repo root directory, unzip what you downloaded into the directory `./CarLani/`
     
 ## Contributing
 

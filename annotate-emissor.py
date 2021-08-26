@@ -435,7 +435,7 @@ class Emissor():
             for i, feat in enumerate(ff):
                 if feat is None:
                     continue
-                print(f"TAETAETAE {feat}")
+                logging.info(f"{feat}")
                 age = feat['age']['mean']
                 gender = feat['gender']['m']
                 gender = 'male' if gender > 0.5 else 'female'
