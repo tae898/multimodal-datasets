@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "123",
+    "Emotion": "anger",
+    "EndTime": "0:05:12,342",
+    "Episode": "17",
+    "Season": "9",
+    "Sentiment": "negative",
+    "Speaker": "Ross",
+    "SrNo": "1201",
+    "StartTime": "0:05:09,672",
+    "Utterance": "That only is not funny, it's physically impossible!",
+    "Utterance_ID": "1"
+}

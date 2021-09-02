@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "12",
+    "Emotion": "disgust",
+    "EndTime": "00:10:00,890",
+    "Episode": "4",
+    "Season": "6",
+    "Sentiment": "negative",
+    "Speaker": "Chandler",
+    "SrNo": "129",
+    "StartTime": "00:09:57,346",
+    "Utterance": "That’s great, but shouldn’t you be on the toilet right now?",
+    "Utterance_ID": "2"
+}

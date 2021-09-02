@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "1000",
+    "Emotion": "anger",
+    "EndTime": "00:06:56,123",
+    "Episode": "3",
+    "Season": "2",
+    "Sentiment": "negative",
+    "Speaker": "Chandler",
+    "SrNo": "10031",
+    "StartTime": "00:06:52,537",
+    "Utterance": "Actually, I think this apartment sullies the good name of crap",
+    "Utterance_ID": "2"
+}

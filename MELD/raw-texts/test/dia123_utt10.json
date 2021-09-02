@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "123",
+    "Emotion": "surprise",
+    "EndTime": "00:09:04,000",
+    "Episode": "5",
+    "Season": "8",
+    "Sentiment": "negative",
+    "Speaker": "Monica",
+    "SrNo": "1181",
+    "StartTime": "00:09:02,083",
+    "Utterance": "What? So now I’m not allowed to fire him?",
+    "Utterance_ID": "10"
+}

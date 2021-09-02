@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "12",
+    "Emotion": "fear",
+    "EndTime": "00:10:18,575",
+    "Episode": "4",
+    "Season": "6",
+    "Sentiment": "negative",
+    "Speaker": "Joey",
+    "SrNo": "133",
+    "StartTime": "00:10:08,190",
+    "Utterance": "Well, I-I got this blinding pain in my stomach when I was lifting weights before, then I uh passed out and uh, haven’t been able to stand up since.",
+    "Utterance_ID": "6"
+}

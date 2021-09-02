@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "123",
+    "Emotion": "sadness",
+    "EndTime": "00:09:07,504",
+    "Episode": "5",
+    "Season": "8",
+    "Sentiment": "negative",
+    "Speaker": "Phoebe",
+    "SrNo": "1182",
+    "StartTime": "00:09:04,168",
+    "Utterance": "You can’t fire him and dump him the same day, he’ll kill himself.",
+    "Utterance_ID": "11"
+}

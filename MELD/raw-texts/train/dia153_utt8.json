@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "153",
+    "Emotion": "disgust",
+    "EndTime": "00:10:00,015",
+    "Episode": "6",
+    "Season": "3",
+    "Sentiment": "negative",
+    "Speaker": "Monica",
+    "SrNo": "1503",
+    "StartTime": "00:09:44,333",
+    "Utterance": "Oh, well don’t take it to the same place you took the stereo, ‘cause they’ve had that thing for over a week.",
+    "Utterance_ID": "8"
+}

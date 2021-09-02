@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "4",
+    "Emotion": "anger",
+    "EndTime": "00:09:03,750",
+    "Episode": "14",
+    "Season": "4",
+    "Sentiment": "negative",
+    "Speaker": "Joey",
+    "SrNo": "52",
+    "StartTime": "00:09:00,998",
+    "Utterance": "Look, I know I feel asleep before I could shower and now I don’t have time!",
+    "Utterance_ID": "7"
+}

@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "745",
+    "Emotion": "anger",
+    "EndTime": "00:02:17,886",
+    "Episode": "4",
+    "Season": "3",
+    "Sentiment": "negative",
+    "Speaker": "Joey",
+    "SrNo": "7466",
+    "StartTime": "00:02:14,175",
+    "Utterance": "My agent would like to know why I didn't show up at the audition I didn't know I had today.",
+    "Utterance_ID": "7"
+}

@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "123",
+    "Emotion": "disgust",
+    "EndTime": "00:09:14,219",
+    "Episode": "5",
+    "Season": "8",
+    "Sentiment": "negative",
+    "Speaker": "Phoebe",
+    "SrNo": "1184",
+    "StartTime": "00:09:10,299",
+    "Utterance": "Are you kidding?! Another week with that sip, I’ll kill",
+    "Utterance_ID": "13"
+}

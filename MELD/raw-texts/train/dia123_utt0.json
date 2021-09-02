@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "123",
+    "Emotion": "surprise",
+    "EndTime": "00:05:08,921",
+    "Episode": "17",
+    "Season": "9",
+    "Sentiment": "positive",
+    "Speaker": "Chandler",
+    "SrNo": "1200",
+    "StartTime": "00:05:06,252",
+    "Utterance": "I believe I read that somewhere!",
+    "Utterance_ID": "0"
+}

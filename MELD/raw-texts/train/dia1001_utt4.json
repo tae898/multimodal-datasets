@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "1001",
+    "Emotion": "sadness",
+    "EndTime": "00:05:11,184",
+    "Episode": "5",
+    "Season": "2",
+    "Sentiment": "negative",
+    "Speaker": "Joey",
+    "SrNo": "10037",
+    "StartTime": "00:05:08,433",
+    "Utterance": "If it's not you, this is a horrible story.",
+    "Utterance_ID": "4"
+}

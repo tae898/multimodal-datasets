@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "95",
+    "Emotion": "anger",
+    "EndTime": "00:12:50,226",
+    "Episode": "4",
+    "Season": "8",
+    "Sentiment": "negative",
+    "Speaker": "Monica",
+    "SrNo": "1013",
+    "StartTime": "00:12:46,390",
+    "Utterance": "Okay, maybe people give out fake numbers, but they don’t give out fake names.",
+    "Utterance_ID": "2"
+}

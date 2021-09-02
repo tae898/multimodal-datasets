@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "30",
+    "Emotion": "fear",
+    "EndTime": "00:00:08,549",
+    "Episode": "20",
+    "Season": "6",
+    "Sentiment": "negative",
+    "Speaker": "Joey",
+    "SrNo": "352",
+    "StartTime": "00:00:05,005",
+    "Utterance": "The reactor’s gonna blow in three seconds, we’re never gonna make it!",
+    "Utterance_ID": "0"
+}

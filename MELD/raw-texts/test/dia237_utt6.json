@@ -1,0 +1,13 @@
+{
+    "Dialogue_ID": "237",
+    "Emotion": "anger",
+    "EndTime": "00:07:45,714",
+    "Episode": "15",
+    "Season": "1",
+    "Sentiment": "negative",
+    "Speaker": "Chandler",
+    "SrNo": "2340",
+    "StartTime": "00:07:40,918",
+    "Utterance": "\"You are ideally suited for a career in data processing for a large multinational corporation.\"",
+    "Utterance_ID": "6"
+}
