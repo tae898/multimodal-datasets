@@ -1,22 +1,22 @@
 import argparse
 import logging
 import os
-from tqdm import tqdm
 import shutil
 
 logging.basicConfig(
     level=logging.DEBUG,
-    format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
+    format="%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
 )
 
 
-class Dataset():
+class Dataset:
     def __init__(self, dataset):
-        self.archives = \
-            {'MELD': 'MELD.Raw.tar.gz',
-             'IEMOCAP': 'IEMOCAP_full_release.tar.gz',
-             'CarLani': 'CarLani.zip'}
+        self.archives = {
+            "MELD": "MELD.Raw.tar.gz",
+            "IEMOCAP": "IEMOCAP_full_release.tar.gz",
+            "CarLani": "CarLani.zip",
+        }
         self.SUPPORTED_DATASETS = list(self.archives.keys())
         self.dataset = dataset
 
@@ -24,11 +24,12 @@ class Dataset():
         if self.dataset not in self.SUPPORTED_DATASETS:
             raise ValueError(
                 f"{self.dataset} is not one of the supported datasets: "
-                f"{self.SUPPORTED_DATASETS}!")
+                f"{self.SUPPORTED_DATASETS}!"
+            )
 
-        assert os.path.isfile(os.path.join(
-            self.dataset, self.archives[self.dataset])), \
-            f"place the archive in the dataset directory!"
+        assert os.path.isfile(
+            os.path.join(self.dataset, self.archives[self.dataset])
+        ), f"place the archive in the dataset directory!"
 
         logging.info(f"sanity check on {self.dataset} successful")
 
@@ -36,41 +37,46 @@ class Dataset():
         logging.info(f"extracting {self.archives[self.dataset]} ...")
         archive_path = os.path.join(self.dataset, self.archives[self.dataset])
 
-        if self.dataset == 'MELD':
+        if self.dataset == "MELD":
             from utils.extract_archive import extract_meld
+
             extract_meld(archive_path)
-        elif self.dataset == 'IEMOCAP':
+        elif self.dataset == "IEMOCAP":
             from utils.extract_archive import extract_iemocap
+
             extract_iemocap(archive_path)
-        elif self.dataset == 'CarLani':
+        elif self.dataset == "CarLani":
             from utils.extract_archive import extract_carlani
+
             extract_carlani(archive_path)
 
         logging.info(f"extraction complete.")
 
     def create_raw_directories(self):
         logging.debug(f"creating raw directories ...")
-        self.modalities = ['videos', 'audios', 'texts']
+        self.modalities = ["videos", "audios", "texts"]
 
         for modality in self.modalities:
-            for SPLIT in ['train', 'val', 'test']:
-                os.makedirs(f"./{self.dataset}/raw-{modality}/{SPLIT}",
-                            exist_ok=True)
+            for SPLIT in ["train", "val", "test"]:
+                os.makedirs(f"./{self.dataset}/raw-{modality}/{SPLIT}", exist_ok=True)
 
     def extract_raw_data(self):
         logging.debug(f"extracting raw data to {self.modalities}...")
-        if self.dataset == 'MELD':
+        if self.dataset == "MELD":
             from utils import extract_raw_data_meld
+
             extract_raw_data_meld.run()
-            shutil.rmtree('./MELD/MELD.Raw', ignore_errors=True)
+            shutil.rmtree("./MELD/MELD.Raw", ignore_errors=True)
 
-        elif self.dataset == 'IEMOCAP':
+        elif self.dataset == "IEMOCAP":
             from utils import extract_raw_data_iemocap
-            extract_raw_data_iemocap.run()
-            shutil.rmtree('./IEMOCAP/IEMOCAP_full_release', ignore_errors=True)
 
-        elif self.dataset == 'CarLani':
+            extract_raw_data_iemocap.run()
+            shutil.rmtree("./IEMOCAP/IEMOCAP_full_release", ignore_errors=True)
+
+        elif self.dataset == "CarLani":
             from utils import extract_raw_data_carlani
+
             extract_raw_data_carlani.run()
 
         logging.info(f"extracting {self.modalities} raw data complete.")
@@ -86,9 +92,8 @@ def main(dataset):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description='process a multimodal dataset')
-    parser.add_argument('--dataset', type=str)
+    parser = argparse.ArgumentParser(description="process a multimodal dataset")
+    parser.add_argument("--dataset", type=str)
 
     args = parser.parse_args()
     args = vars(args)

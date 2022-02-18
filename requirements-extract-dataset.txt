@@ -1,2 +1,6 @@
 tqdm
 numpy
+black
+isort
+mdformat
+flake8

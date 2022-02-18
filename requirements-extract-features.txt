@@ -5,3 +5,7 @@ Pillow
 tqdm
 python-on-whales
 requests
+black
+isort
+mdformat
+flake8

@@ -29,15 +29,17 @@ def get_unique_chars(all_chars):
 
 def run():
 
-    paths = {'train': './MELD/MELD.Raw/train_sent_emo.csv',
-             'dev': './MELD/MELD.Raw/dev_sent_emo.csv',
-             'test': './MELD/MELD.Raw/test_sent_emo.csv'}
+    paths = {
+        "train": "./MELD/MELD.Raw/train_sent_emo.csv",
+        "dev": "./MELD/MELD.Raw/dev_sent_emo.csv",
+        "test": "./MELD/MELD.Raw/test_sent_emo.csv",
+    }
 
     strings = load_original_strings(paths)
     all_chars = get_all_chars(strings)
     unique_chars = get_unique_chars(all_chars)
 
-    print(f'there are in total of {len(unique_chars)} characters used: ')
+    print(f"there are in total of {len(unique_chars)} characters used: ")
     print(unique_chars)
     print()
 
@@ -51,14 +53,16 @@ def run():
     97	—	2014	EM DASH
     A0	 	00A0	NO-BREAK SPACE
     """
-    cp1252_to_utf8 = {'\x85': "…",
-                      '\x91': "‘",
-                      '\x92': "’",
-                      '\x93': "“",
-                      '\x94': "”",
-                      '\x96': "–",
-                      '\x97': "—",
-                      '\xa0': " "}
+    cp1252_to_utf8 = {
+        "\x85": "…",
+        "\x91": "‘",
+        "\x92": "’",
+        "\x93": "“",
+        "\x94": "”",
+        "\x96": "–",
+        "\x97": "—",
+        "\xa0": " ",
+    }
 
     strings_converted = {}
 
@@ -82,8 +86,7 @@ def run():
                     except KeyError:
                         strings_converted[key][i][j] += c
 
-                strings_converted[key][i][j] = ''.join(
-                    strings_converted[key][i][j])
+                strings_converted[key][i][j] = "".join(strings_converted[key][i][j])
 
     for (key, val), (keyc, valc) in zip(strings.items(), strings_converted.items()):
         assert key == keyc
@@ -101,15 +104,17 @@ def run():
     print("conversion finished.")
     print()
 
-    print(f'there are in total of {len(unique_chars)} characters used: ')
+    print(f"there are in total of {len(unique_chars)} characters used: ")
     print(unique_chars)
     print()
 
-    paths = {'train': './MELD/MELD.Raw/train_sent_emo_converted.csv',
-             'dev': './MELD/MELD.Raw/dev_sent_emo_converted.csv',
-             'test': './MELD/MELD.Raw/test_sent_emo_converted.csv'}
+    paths = {
+        "train": "./MELD/MELD.Raw/train_sent_emo_converted.csv",
+        "dev": "./MELD/MELD.Raw/dev_sent_emo_converted.csv",
+        "test": "./MELD/MELD.Raw/test_sent_emo_converted.csv",
+    }
 
     for key, val in strings_converted.items():
-        with open(paths[key], 'w') as f:
-            writer = csv.writer(f, delimiter=',')
+        with open(paths[key], "w") as f:
+            writer = csv.writer(f, delimiter=",")
             writer.writerows(val)
