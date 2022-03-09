@@ -1,7 +1,5 @@
 # Multimodal-Datasets
 
-[![DOI](https://zenodo.org/badge/358332238.svg)](https://zenodo.org/badge/latestdoi/358332238)
-
 This repo collects multimodal datasets and process them in a nice manner. Please let me know if you have some interesting datasets to be processed.
 
 ## Supported Datasets
@@ -174,6 +172,10 @@ You can also download them from the below link.
 ## Troubleshooting
 
 The best way to find and solve your problems is to see in the github issue tab. If you can't find what you want, feel free to raise an issue. We are pretty responsive.
+
+## Cite our work
+
+[![DOI](https://zenodo.org/badge/358332238.svg)](https://zenodo.org/badge/latestdoi/358332238)
 
 ## Contributing
 
