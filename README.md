@@ -77,7 +77,7 @@ This is about extracting the original datasets into the above mentioned structur
 1. Install the python requirements by
 
    ```bash
-   pip3 install -r requirements-extract-dataset.txt
+   pip install -r requirements-extract-dataset.txt
    ```
 
    I highly recommend you to run it in a virtual environment.
@@ -122,7 +122,7 @@ This is about extracting the featrues (e.g. face-features)
 1. Install the python requirements by
 
    ```bash
-   pip3 install -r requirements-extract-features.txt
+   pip install -r requirements-extract-features.txt
    ```
 
    I highly recommend you to run it in a virtual environment.
@@ -142,7 +142,7 @@ This is optional. The processed datasets can also be annotated in the [EMISSOR a
 1. Install the python requirements by
 
    ```bash
-   pip3 install -r requirements-annotate-emissor.txt
+   pip install -r requirements-annotate-emissor.txt
    ```
 
    I highly recommend you to run it in a virtual environment.
