@@ -66,7 +66,7 @@ Beware that the numbers are not always the same. For example, there might be a v
 
 There several levels.
 
-**Use python >= 3.7**
+**Use python >= 3.8**
 
 ### Dataset extraction
 
@@ -91,10 +91,10 @@ This is about extracting the original datasets into the above mentioned structur
 1. In this current directory, where `README.md` is located, run
 
    ```bash
-   python3 extract-dataset.py --dataset DATASET
+   python extract-dataset.py --dataset DATASET
    ```
 
-   Replace `DATASET` with your desired dataset (e.g. `python3 extract-dataset.py --dataset MELD`)
+   Replace `DATASET` with your desired dataset (e.g. `python extract-dataset.py --dataset MELD`)
 
 **In the next sections, we will go through extracting features and annotating with EMISSOR. Go ahead if you want to do it youself, otherwise you can just download them from the below links.**
 
@@ -130,10 +130,10 @@ This is about extracting the featrues (e.g. face-features)
 1. In this current directory, where `README.md` is located, run
 
    ```bash
-   python3 extract-features.py --dataset DATASET --face-features --face-videos --visual-features --audio-features --text-features --run-on-gpu --num-jobs NUM_JOBS 
+   python extract-features.py --dataset DATASET --face-features --face-videos --visual-features --audio-features --text-features --run-on-gpu --num-jobs NUM_JOBS 
    ```
 
-   Replace `DATASET` with your desired dataset. Only add the boolean flags (i.e. --face-features, --face-videos, --visual-features, --audio-features, --text-features) that you want to extract. For example, if you only want to extract face features and audio features from the MELD dataset, the command should be `python3 extract-features.py --dataset MELD --face-features --audio-features`. If you want to run in parallel, you can add the gpu flag `--run-on-gpu` and even add more workers `--num-jobs NUM_JOBS`. Running on GPU requires you to have a NVIDIA GPU and you should build the GPU images for this. Read https://github.com/tae898/face for more information.
+   Replace `DATASET` with your desired dataset. Only add the boolean flags (i.e. --face-features, --face-videos, --visual-features, --audio-features, --text-features) that you want to extract. For example, if you only want to extract face features and audio features from the MELD dataset, the command should be `python extract-features.py --dataset MELD --face-features --audio-features`. If you want to run in parallel, you can add the gpu flag `--run-on-gpu` and even add more workers `--num-jobs NUM_JOBS`. Running on GPU requires you to have a NVIDIA GPU and you should build the GPU images for this. Read https://github.com/tae898/face for more information.
 
 ### Annotate the dataset in the EMISSOR format (optional)
 
@@ -150,7 +150,7 @@ This is optional. The processed datasets can also be annotated in the [EMISSOR a
 1. In this current directory, where `README.md` is located, run
 
    ```bash
-   python3 annotate-emissor.py --dataset DATASET --num-jobs NUM_JOBS
+   python annotate-emissor.py --dataset DATASET --num-jobs NUM_JOBS
    ```
 
    The python script can only use the features extracted.
