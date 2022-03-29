@@ -192,4 +192,4 @@ Contributions are what make the open source community such an amazing place to b
 
 If you have any questions, or have interesting datasets, then please let me know.
 
-- [Taewoon Kim](https://taewoonkim.com/)
+- [Taewoon Kim](https://taewoon.kim/)
